@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!--For jQuery/Javascript-->
+	<script type="text/javascript" src="jquery.js"></script>
+	<!--For CSS-->
+	<link type="text/css" rel="stylesheet" href="challenge12.css"/>
+</head>
+<body>
+	<!--Test Div 1-->
+	<div class="test1">
+		Test, test. Yes, test, test.
+		<p>
+			Yeah, right here as well.
+		</p>
+	</div>
+	<!--Test Div 2-->
+	<div class="test2">
+		And give me some more test divs.
+	</div>
+
+	<script>
+		//For generating a random Hex Code for the Background-color
+		var hexCode = function () {
+			var hexCodeDigits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"];
+			var holdHere = [];
+			for (var i = 0; i < 6; i++) {
+				holdHere.push(hexCodeDigits[Math.floor(Math.random()*hexCodeDigits.length)]);
+			};
+			return "#" + holdHere.join("");
+		};
+
+		//Function to take the output of $(this).css("background-color"),
+		//which will be a string, such as "rgb(123, 456, 789)," and
+		//contain the RGB code of the background color, and 
+		//convert it to an array of integers
+		var rgbToIntegers = function (rgbString) {
+			var arrayOfStringedIntegers = rgbString.slice(4, -1).split(",");
+			var arrayOfIntegers = arrayOfStringedIntegers.map(function (x) {
+				return parseInt(x);
+			});
+			return arrayOfIntegers;
+		}
+		//Function to turn the array of strings into an array
+		//of integers
+		var rgbToHexIntegers = function (rgbArray) {
+			var rgbIntegers = rgbArray.map(function (x) {
+				return parseInt(x);
+			});
+			return rgbIntegers;
+		};
+		//Function for converting the array of rgb integers
+		//to a hexadecimal code	
+		var rgbToHex = function (array) {
+			var r = array[0];
+			var g = array[1];
+			var b = array[2];
+			return  "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+		};
+
+		//Function to invert Hex Code
+		var invertColor = function (hexColorCode) {
+			var color = hexColorCode;
+			color = color.substring(1);
+			color = parseInt(color, 16);
+			color = 0xFFFFFF ^ color;
+			color = color.toString(16);
+			color = ("000000" + color).slice(-6);
+			color = "#" + color;
+			return color;
+		};
+
+		//jQuery function for applying the random background-color and inverted font color
+		$(document).ready(function () {
+			$("div").each(function () {
+				$(this).css("background-color", hexCode());
+				var $backgroundColor = $(this).css("background-color");
+
+				
+				//Focus on refractoring the code. It works now! CHeck test.html
+				//for functioning code prior to refractoring
+				$(this).css("color", $invertedColor);
+				$(".testP").css("color", $invertedColor)
+				console.log("1   " + $backgroundColor);
+				console.log("2   " + $rgbAsArrayStrings);
+				console.log("3   " + $rgb);
+				console.log("4   " + $last);
+				console.log(typeof $last)
+				
+			
+			});
+		});
+
+	</script>
+</body>
+</html>

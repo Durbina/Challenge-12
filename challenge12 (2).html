@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!--For jQuery/Javascript-->
+	<script type="text/javascript" src="jquery.js"></script>
+	<!--For CSS-->
+	<link type="text/css" rel="stylesheet" href="challenge12.css"/>
+</head>
+<body>
+	<!--Test Div 1-->
+	<div class="test1">
+		Test, test.
+		<p>
+			Test Div.   
+		</p>
+	</div>
+	<!--Test Div 2-->
+	<div class="test2">
+		And give me another test div.
+	</div>
+	<script>
+		//For generating a random Hex Code for background-color
+		var hexCode = function () {
+			var hexCodeDigits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"];
+			var holdHere = [];
+			for (var i = 0; i < 6; i++) {
+				holdHere.push(hexCodeDigits[Math.floor(Math.random()*hexCodeDigits.length)]);
+			};
+			return holdHere.join("");
+		};
+		//Function to take the output of $(this).css("background-color"),
+		//which will be a string, such as "rgb(123, 456, 789)," that
+		//contains the RGB code of the background color, and 
+		//convert it into an array containing each Red, Blue, and
+		//Green color code
+		var rgbToIntegers = function (rgbString) {
+			var arrayOfStringedIntegers = rgbString.slice(4, -1).split(",");
+			var arrayOfIntegers = arrayOfStringedIntegers.map(function (x) {
+				return parseInt(x);
+			});
+			//For converting the array of rgb integers to
+			//a hexadecimal code
+			var r = arrayOfIntegers[0];
+			var g = arrayOfIntegers[1];
+			var b = arrayOfIntegers[2];
+			return  "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+		};
+		
+		//Function to invert Hex Code
+		var invertColor = function (hexColorCode) {
+			var color = hexColorCode;
+			color = color.substring(1);
+			color = parseInt(color, 16);
+			color = 0xFFFFFF ^ color;
+			color = color.toString(16);
+			color = ("000000" + color).slice(-6);
+			color = "#" + color;
+			return color;
+		};
+		//jQuery function for applying the random background-color and inverted font color
+		$(document).ready(function () {
+			$("div").each(function () {
+				$(this).css("background-color", "#" + hexCode());
+				var $backgroundColorinRGB = $(this).css("background-color");
+				var $backgroundHexColor = rgbToIntegers($backgroundColorinRGB);
+				var $invertedHexColor = invertColor($backgroundHexColor);
+				$(this).css("color", $invertedHexColor);
+			});
+		});
+	</script>
+</body>
+</html>
